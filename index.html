@@ -6,53 +6,138 @@
   <title>Isla Verde — Weekly Deals</title>
   <meta name="description" content="Isla Verde weekly deals & incentives." />
   <style>
-    <style>
-  :root{
-    --bg:#0b0f14;
-    --card:#121a22;
-    --muted:#94a3b8;
-    --text:#e6edf6;
-    --accent:#22c55e;
-    --accent2:#60a5fa;
-  }
+    :root{
+      /* Isla Verde brand */
+      --brand-red:#E11D2A;
+      --brand-gold:#E3B23C;
+      --brand-cream:#F6E7C8;
+
+      /* Page + surfaces */
+      --bg:#0F0F12;          /* main background (dark) */
+      --card:#1B1B20;        /* neutral card color */
+      --card2:#23232A;       /* slightly lighter neutral for depth */
+      --text:var(--brand-cream);
+      --muted:#B9B2A3;
+      --border:rgba(246,231,200,.18);
+
+      /* accents used across UI */
+      --accent:var(--brand-red);
+      --accent2:var(--brand-gold);
+      --warn:#f59e0b;
+      --danger:#ef4444;
+    }
 
     *{box-sizing:border-box}
-    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,Helvetica,Arial;
-      background:radial-gradient(1200px 500px at 10% 0%, rgba(34,197,94,.15), transparent 60%),
-                 radial-gradient(1000px 500px at 90% 10%, rgba(96,165,250,.12), transparent 55%),
-                 var(--bg);
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,Helvetica,Arial;
+      background:
+        radial-gradient(1200px 500px at 10% 0%, rgba(225,29,42,.22), transparent 60%),
+        radial-gradient(1000px 500px at 90% 10%, rgba(227,178,60,.14), transparent 55%),
+        var(--bg);
       color:var(--text);
     }
     a{color:inherit}
     .wrap{max-width:980px;margin:0 auto;padding:28px 16px 56px}
+
     header{display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+
     .brand{display:flex;gap:12px;align-items:center}
-    .logo{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg, rgba(34,197,94,.95), rgba(96,165,250,.95));
-      box-shadow:0 10px 30px rgba(0,0,0,.35)}
+    .logo{
+      width:44px;
+      height:auto;
+      display:block;
+      object-fit:contain;
+      border-radius:14px;
+      background:rgba(246,231,200,.06);
+      border:1px solid rgba(246,231,200,.14);
+      padding:6px;
+      box-shadow:0 12px 30px rgba(0,0,0,.35), 0 0 0 4px rgba(225,29,42,.10);
+    }
+
     h1{font-size:20px;margin:0;letter-spacing:.2px}
     .sub{margin:4px 0 0;color:var(--muted);font-size:13px}
+    .sub a{
+      color:var(--text);
+      text-decoration:underline;
+      text-decoration-color:rgba(227,178,60,.55);
+      text-underline-offset:3px;
+    }
+    .sub a:hover{
+      text-decoration-color:rgba(225,29,42,.75);
+    }
 
     .pillbar{display:flex;gap:8px;flex-wrap:wrap}
-    .pill{border:1px solid var(--border);background:rgba(18,26,34,.75);padding:8px 10px;border-radius:999px;
-      font-size:12px;color:var(--muted)}
+    .pill{
+      border:1px solid var(--border);
+      background:rgba(27,27,32,.65);
+      padding:8px 10px;
+      border-radius:999px;
+      font-size:12px;
+      color:var(--muted)
+    }
     .pill strong{color:var(--text)}
 
-    .hero{margin-top:18px;border:1px solid var(--border);background:rgba(18,26,34,.75);
-      border-radius:18px;padding:16px;display:flex;gap:14px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}
+    .hero{
+      margin-top:18px;
+      border:1px solid var(--border);
+      background:linear-gradient(180deg, rgba(35,35,42,.72), rgba(27,27,32,.72));
+      border-radius:18px;
+      padding:16px;
+      display:flex;
+      gap:14px;
+      align-items:flex-start;
+      justify-content:space-between;
+      flex-wrap:wrap
+    }
+
     .today{min-width:260px;flex:1}
     .today h2{margin:0;font-size:16px}
     .today .label{display:inline-flex;gap:8px;align-items:center;margin-top:10px}
-    .badge{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--border);background:rgba(11,15,20,.55);
-      padding:6px 10px;border-radius:999px;font-size:12px;color:var(--muted)}
-    .dot{width:10px;height:10px;border-radius:999px;background:var(--accent)}
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      border:1px solid var(--border);
+      background:rgba(15,15,18,.55);
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:12px;
+      color:var(--muted)
+    }
+    .dot{
+      width:10px;height:10px;border-radius:999px;
+      background:var(--accent);
+      box-shadow:0 0 0 4px rgba(225,29,42,.14);
+    }
+
     .cta{display:flex;flex-direction:column;gap:10px;min-width:260px}
-    .btn{appearance:none;border:none;border-radius:14px;padding:12px 14px;background:linear-gradient(135deg, rgba(34,197,94,.95), rgba(96,165,250,.95));
-      color:#061019;font-weight:700;cursor:pointer}
-    .btn.secondary{background:transparent;border:1px solid var(--border);color:var(--text);font-weight:600}
+
+    .btn{
+      appearance:none;border:none;border-radius:14px;padding:12px 14px;
+      background:linear-gradient(135deg, rgba(225,29,42,.95), rgba(227,178,60,.88));
+      color:#16070A;
+      font-weight:800;
+      cursor:pointer
+    }
+    .btn:hover{filter:brightness(1.03)}
+    .btn.secondary{
+      background:transparent;border:1px solid var(--border);
+      color:var(--text);
+      font-weight:650
+    }
+
     .small{font-size:12px;color:var(--muted);line-height:1.4}
 
     .grid{margin-top:16px;display:grid;grid-template-columns:repeat(12,1fr);gap:12px}
-    .card{grid-column:span 12;border:1px solid var(--border);background:rgba(18,26,34,.72);border-radius:18px;padding:14px}
+    .card{
+      grid-column:span 12;
+      border:1px solid var(--border);
+      background:linear-gradient(180deg, rgba(35,35,42,.85), rgba(27,27,32,.85));
+      border-radius:18px;
+      padding:14px
+    }
     @media(min-width:780px){
       .card{grid-column:span 6}
       .card.wide{grid-column:span 12}
@@ -63,7 +148,10 @@
     li{margin:6px 0;color:var(--text)}
     li span{color:var(--muted)}
 
-    .highlight{outline:2px solid rgba(34,197,94,.55);box-shadow:0 0 0 4px rgba(34,197,94,.12)}
+    .highlight{
+      outline:2px solid rgba(225,29,42,.55);
+      box-shadow:0 0 0 4px rgba(225,29,42,.12);
+    }
 
     footer{margin-top:18px;color:var(--muted);font-size:12px;line-height:1.5}
     .fine{border-top:1px solid var(--border);padding-top:14px;margin-top:14px}
@@ -85,8 +173,9 @@
         <div>
           <h1>Isla Verde — Weekly Deals</h1>
           <div class="sub">
-  Mon–Sat: 10am–10pm · Sun: 12pm–6pm · IG: <a href="https://instagram.com/islaverdefl" target="_blank" rel="noopener">@islaverdefl</a>
-</div>
+            Mon–Sat: 10am–10pm · Sun: 12pm–6pm · IG:
+            <a href="https://instagram.com/islaverdefl" target="_blank" rel="noopener">@islaverdefl</a>
+          </div>
         </div>
       </div>
 
@@ -114,7 +203,6 @@
     </section>
 
     <section class="grid" aria-label="Weekly deals grid">
-      <!-- Monday -->
       <article class="card" id="Mon">
         <h3>🟢 Monday — Cash Builder Monday</h3>
         <p class="rule">Any flower purchase unlocks ONE option:</p>
@@ -125,7 +213,6 @@
         </ul>
       </article>
 
-      <!-- Tuesday -->
       <article class="card" id="Tue">
         <h3>🔵 Tuesday — Add-On Accelerator</h3>
         <p class="rule">Flower + any non-flower item:</p>
@@ -134,7 +221,6 @@
         </ul>
       </article>
 
-      <!-- Wednesday -->
       <article class="card" id="Wed">
         <h3>🟡 Wednesday — Protected Flower Day</h3>
         <p class="rule">Flower stays full price. With any flower purchase, choose ONE:</p>
@@ -145,7 +231,6 @@
         </ul>
       </article>
 
-      <!-- Thursday -->
       <article class="card" id="Thu">
         <h3>🟠 Thursday — Build-A-Basket</h3>
         <p class="rule">Any 3 items (any categories):</p>
@@ -154,7 +239,6 @@
         </ul>
       </article>
 
-      <!-- Friday -->
       <article class="card" id="Fri">
         <h3>🔴 Friday — Premium Lock Friday</h3>
         <p class="rule">Premium or Exotic flower unlocks ONE option:</p>
@@ -165,7 +249,6 @@
         </ul>
       </article>
 
-      <!-- Saturday -->
       <article class="card" id="Sat">
         <h3>🟣 Saturday — Power Bundle Saturday</h3>
         <p class="rule">Approved bundles only (no substitutions):</p>
@@ -175,7 +258,6 @@
         </ul>
       </article>
 
-      <!-- Sunday -->
       <article class="card" id="Sun">
         <h3>⚪ Sunday — Return-Cash Sunday</h3>
         <p class="rule">Any flower purchase earns:</p>
@@ -184,7 +266,6 @@
         </ul>
       </article>
 
-      <!-- Fine print -->
       <article class="card wide" style="margin-top:2px">
         <h3>House Rules</h3>
         <p class="rule">• One promo per ticket. No stacking. • Availability subject to inventory. • Credit cannot be used on flower and cannot be redeemed same day. • Exclusions may apply to premium/live products and limited drops.</p>
