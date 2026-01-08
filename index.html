@@ -7,20 +7,17 @@
   <meta name="description" content="Isla Verde weekly deals & incentives." />
   <style>
     :root{
-      /* Isla Verde brand */
       --brand-red:#E11D2A;
       --brand-gold:#E3B23C;
       --brand-cream:#F6E7C8;
 
-      /* Page + surfaces */
-      --bg:#0F0F12;          /* main background (dark) */
-      --card:#1B1B20;        /* neutral card color */
-      --card2:#23232A;       /* slightly lighter neutral for depth */
+      --bg:#0F0F12;
+      --card:#1B1B20;
+      --card2:#23232A;
       --text:var(--brand-cream);
       --muted:#B9B2A3;
       --border:rgba(246,231,200,.18);
 
-      /* accents used across UI */
       --accent:var(--brand-red);
       --accent2:var(--brand-gold);
       --warn:#f59e0b;
@@ -62,9 +59,6 @@
       text-decoration:underline;
       text-decoration-color:rgba(227,178,60,.55);
       text-underline-offset:3px;
-    }
-    .sub a:hover{
-      text-decoration-color:rgba(225,29,42,.75);
     }
 
     .pillbar{display:flex;gap:8px;flex-wrap:wrap}
@@ -121,7 +115,6 @@
       font-weight:800;
       cursor:pointer
     }
-    .btn:hover{filter:brightness(1.03)}
     .btn.secondary{
       background:transparent;border:1px solid var(--border);
       color:var(--text);
@@ -152,17 +145,6 @@
       outline:2px solid rgba(225,29,42,.55);
       box-shadow:0 0 0 4px rgba(225,29,42,.12);
     }
-
-    footer{margin-top:18px;color:var(--muted);font-size:12px;line-height:1.5}
-    .fine{border-top:1px solid var(--border);padding-top:14px;margin-top:14px}
-
-    /* print */
-    @media print{
-      body{background:#fff;color:#111}
-      .hero,.pill,.btn{display:none !important}
-      .card{background:#fff;border:1px solid #ddd}
-      .rule, .sub, footer{color:#333}
-    }
   </style>
 </head>
 <body>
@@ -179,19 +161,19 @@
         </div>
       </div>
 
-      <div class="pillbar" aria-label="Quick notes">
+      <div class="pillbar">
         <div class="pill"><strong>Rule:</strong> Flower unlocks value</div>
         <div class="pill"><strong>No stacking</strong> (one promo per ticket)</div>
         <div class="pill"><strong>Credit:</strong> non-flower only</div>
       </div>
     </header>
 
-    <section class="hero" aria-label="Today’s deal">
+    <section class="hero">
       <div class="today">
-        <h2 id="todayTitle">Today’s Deal</h2>
+        <h2>Today’s Deal</h2>
         <div class="label">
-          <div class="badge"><span class="dot" id="dot"></span><span id="todayName">Loading…</span></div>
-          <div class="badge" id="effective">Effective immediately</div>
+          <div class="badge"><span class="dot"></span><span id="todayName">Loading…</span></div>
+          <div class="badge">Effective immediately</div>
         </div>
         <p class="small" id="todaySummary" style="margin:10px 0 0;"></p>
       </div>
@@ -202,7 +184,7 @@
       </div>
     </section>
 
-    <section class="grid" aria-label="Weekly deals grid">
+    <section class="grid">
       <article class="card" id="Mon">
         <h3>🟢 Monday — Cash Builder Monday</h3>
         <p class="rule">Any flower purchase unlocks ONE option:</p>
@@ -223,7 +205,7 @@
 
       <article class="card" id="Wed">
         <h3>🟡 Wednesday — Protected Flower Day</h3>
-        <p class="rule">Flower stays full price. With any flower purchase, choose ONE:</p>
+        <p class="rule">With any flower purchase, choose ONE:</p>
         <ul>
           <li><strong>FREE</strong> wrap or cone pack</li>
           <li><strong>$3 OFF</strong> any edible</li>
@@ -265,53 +247,34 @@
           <li><strong>$5 store credit</strong> for next visit <span>(non-flower only)</span></li>
         </ul>
       </article>
-
-      <article class="card wide" style="margin-top:2px">
-        <h3>House Rules</h3>
-        <p class="rule">• One promo per ticket. No stacking. • Availability subject to inventory. • Credit cannot be used on flower and cannot be redeemed same day. • Exclusions may apply to premium/live products and limited drops.</p>
-      </article>
     </section>
-
-    <footer>
-      <div class="fine">
-        <strong>Manager note:</strong> Update this page only when a new version is issued (v1.2, v1.3…). Consistency builds trust.
-      </div>
-    </footer>
   </div>
 
   <script>
-    // Highlight today's deal & enable copy.
     const map = {
       0:{key:'Sun', name:'Sunday — Return-Cash Sunday', summary:'Any flower purchase earns $5 store credit for next visit (non-flower only).'},
       1:{key:'Mon', name:'Monday — Cash Builder Monday', summary:'Any flower unlocks ONE: $5 off carts (excl. premium/live), $4 off edibles, or free wrap/cones.'},
       2:{key:'Tue', name:'Tuesday — Add-On Accelerator', summary:'Flower + any non-flower item = $6 off the total ticket.'},
-      3:{key:'Wed', name:'Wednesday — Protected Flower Day', summary:'Flower stays full price. With any flower purchase choose ONE: free wrap/cones, $3 off edibles, or $3 off accessories under $20.'},
+      3:{key:'Wed', name:'Wednesday — Protected Flower Day', summary:'With any flower purchase, choose ONE: free wrap/cones, $3 off edibles, or $3 off accessories under $20.'},
       4:{key:'Thu', name:'Thursday — Build-A-Basket', summary:'Any 3 items (any categories) = $8 off total ticket.'},
       5:{key:'Fri', name:'Friday — Premium Lock Friday', summary:'Premium/Exotic flower unlocks ONE: $7 off carts (excl. premium/live), $5 off edibles, or free premium wrap pack.'},
       6:{key:'Sat', name:'Saturday — Power Bundle Saturday', summary:'Bundles only: $65 (Value 3.5g + edible ≤ $15 + wrap/cone) or $85 (Premium 3.5g + cart ≤ $35 + wrap/cone).'}
     };
 
     const d = new Date();
-    const day = d.getDay();
-    const info = map[day];
-
+    const info = map[d.getDay()];
     document.getElementById('todayName').textContent = info.name;
     document.getElementById('todaySummary').textContent = info.summary;
 
     const card = document.getElementById(info.key);
     if(card) card.classList.add('highlight');
 
-    // Copy today’s deal
     document.getElementById('copyBtn').addEventListener('click', async () => {
       const text = `Isla Verde — ${info.name}\n${info.summary}\n(One promo per ticket. No stacking.)`;
-      try{
-        await navigator.clipboard.writeText(text);
-        const btn = document.getElementById('copyBtn');
-        btn.textContent = 'Copied ✅';
-        setTimeout(()=>btn.textContent='Copy Today’s Deal', 1600);
-      }catch(e){
-        alert('Copy not supported on this device.');
-      }
+      await navigator.clipboard.writeText(text);
+      const btn = document.getElementById('copyBtn');
+      btn.textContent = 'Copied ✅';
+      setTimeout(()=>btn.textContent='Copy Today’s Deal', 1600);
     });
   </script>
 </body>
