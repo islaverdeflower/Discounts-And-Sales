@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Isla Verde — Weekly Deals</title>
+  <meta name="description" content="Isla Verde weekly deals & incentives." />
+  <style>
+    :root{
+      --bg:#0b0f14; --card:#121a22; --muted:#94a3b8; --text:#e6edf6;
+      --accent:#22c55e; --accent2:#60a5fa; --warn:#f59e0b; --danger:#ef4444;
+      --border:rgba(148,163,184,.18);
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,Helvetica,Arial;
+      background:radial-gradient(1200px 500px at 10% 0%, rgba(34,197,94,.15), transparent 60%),
+                 radial-gradient(1000px 500px at 90% 10%, rgba(96,165,250,.12), transparent 55%),
+                 var(--bg);
+      color:var(--text);
+    }
+    a{color:inherit}
+    .wrap{max-width:980px;margin:0 auto;padding:28px 16px 56px}
+    header{display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg, rgba(34,197,94,.95), rgba(96,165,250,.95));
+      box-shadow:0 10px 30px rgba(0,0,0,.35)}
+    h1{font-size:20px;margin:0;letter-spacing:.2px}
+    .sub{margin:4px 0 0;color:var(--muted);font-size:13px}
+
+    .pillbar{display:flex;gap:8px;flex-wrap:wrap}
+    .pill{border:1px solid var(--border);background:rgba(18,26,34,.75);padding:8px 10px;border-radius:999px;
+      font-size:12px;color:var(--muted)}
+    .pill strong{color:var(--text)}
+
+    .hero{margin-top:18px;border:1px solid var(--border);background:rgba(18,26,34,.75);
+      border-radius:18px;padding:16px;display:flex;gap:14px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}
+    .today{min-width:260px;flex:1}
+    .today h2{margin:0;font-size:16px}
+    .today .label{display:inline-flex;gap:8px;align-items:center;margin-top:10px}
+    .badge{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--border);background:rgba(11,15,20,.55);
+      padding:6px 10px;border-radius:999px;font-size:12px;color:var(--muted)}
+    .dot{width:10px;height:10px;border-radius:999px;background:var(--accent)}
+    .cta{display:flex;flex-direction:column;gap:10px;min-width:260px}
+    .btn{appearance:none;border:none;border-radius:14px;padding:12px 14px;background:linear-gradient(135deg, rgba(34,197,94,.95), rgba(96,165,250,.95));
+      color:#061019;font-weight:700;cursor:pointer}
+    .btn.secondary{background:transparent;border:1px solid var(--border);color:var(--text);font-weight:600}
+    .small{font-size:12px;color:var(--muted);line-height:1.4}
+
+    .grid{margin-top:16px;display:grid;grid-template-columns:repeat(12,1fr);gap:12px}
+    .card{grid-column:span 12;border:1px solid var(--border);background:rgba(18,26,34,.72);border-radius:18px;padding:14px}
+    @media(min-width:780px){
+      .card{grid-column:span 6}
+      .card.wide{grid-column:span 12}
+    }
+    .card h3{margin:0 0 8px;font-size:14px}
+    .rule{margin:0;color:var(--muted);font-size:13px;line-height:1.45}
+    ul{margin:10px 0 0;padding-left:18px;color:var(--text)}
+    li{margin:6px 0;color:var(--text)}
+    li span{color:var(--muted)}
+
+    .highlight{outline:2px solid rgba(34,197,94,.55);box-shadow:0 0 0 4px rgba(34,197,94,.12)}
+
+    footer{margin-top:18px;color:var(--muted);font-size:12px;line-height:1.5}
+    .fine{border-top:1px solid var(--border);padding-top:14px;margin-top:14px}
+
+    /* print */
+    @media print{
+      body{background:#fff;color:#111}
+      .hero,.pill,.btn{display:none !important}
+      .card{background:#fff;border:1px solid #ddd}
+      .rule, .sub, footer{color:#333}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <h1>Isla Verde — Weekly Deals</h1>
+          <div class="sub">Simple, clear incentives. Ask staff to apply today’s unlock at checkout.</div>
+        </div>
+      </div>
+
+      <div class="pillbar" aria-label="Quick notes">
+        <div class="pill"><strong>Rule:</strong> Flower unlocks value</div>
+        <div class="pill"><strong>No stacking</strong> (one promo per ticket)</div>
+        <div class="pill"><strong>Credit:</strong> non-flower only</div>
+      </div>
+    </header>
+
+    <section class="hero" aria-label="Today’s deal">
+      <div class="today">
+        <h2 id="todayTitle">Today’s Deal</h2>
+        <div class="label">
+          <div class="badge"><span class="dot" id="dot"></span><span id="todayName">Loading…</span></div>
+          <div class="badge" id="effective">Effective immediately</div>
+        </div>
+        <p class="small" id="todaySummary" style="margin:10px 0 0;"></p>
+      </div>
+      <div class="cta">
+        <button class="btn" id="copyBtn">Copy Today’s Deal</button>
+        <button class="btn secondary" onclick="window.print()">Print</button>
+        <div class="small">Tip: put this link behind a QR code at the register + on the door.</div>
+      </div>
+    </section>
+
+    <section class="grid" aria-label="Weekly deals grid">
+      <!-- Monday -->
+      <article class="card" id="Mon">
+        <h3>🟢 Monday — Cash Builder Monday</h3>
+        <p class="rule">Any flower purchase unlocks ONE option:</p>
+        <ul>
+          <li><strong>$5 OFF</strong> any cartridge <span>(excludes premium/live)</span></li>
+          <li><strong>$4 OFF</strong> any edible</li>
+          <li><strong>FREE</strong> wrap or cone pack</li>
+        </ul>
+      </article>
+
+      <!-- Tuesday -->
+      <article class="card" id="Tue">
+        <h3>🔵 Tuesday — Add-On Accelerator</h3>
+        <p class="rule">Flower + any non-flower item:</p>
+        <ul>
+          <li><strong>$6 OFF</strong> total ticket</li>
+        </ul>
+      </article>
+
+      <!-- Wednesday -->
+      <article class="card" id="Wed">
+        <h3>🟡 Wednesday — Protected Flower Day</h3>
+        <p class="rule">Flower stays full price. With any flower purchase, choose ONE:</p>
+        <ul>
+          <li><strong>FREE</strong> wrap or cone pack</li>
+          <li><strong>$3 OFF</strong> any edible</li>
+          <li><strong>$3 OFF</strong> accessories under $20</li>
+        </ul>
+      </article>
+
+      <!-- Thursday -->
+      <article class="card" id="Thu">
+        <h3>🟠 Thursday — Build-A-Basket</h3>
+        <p class="rule">Any 3 items (any categories):</p>
+        <ul>
+          <li><strong>$8 OFF</strong> total ticket</li>
+        </ul>
+      </article>
+
+      <!-- Friday -->
+      <article class="card" id="Fri">
+        <h3>🔴 Friday — Premium Lock Friday</h3>
+        <p class="rule">Premium or Exotic flower unlocks ONE option:</p>
+        <ul>
+          <li><strong>$7 OFF</strong> any cartridge <span>(excludes premium/live)</span></li>
+          <li><strong>$5 OFF</strong> any edible</li>
+          <li><strong>FREE</strong> premium wrap pack</li>
+        </ul>
+      </article>
+
+      <!-- Saturday -->
+      <article class="card" id="Sat">
+        <h3>🟣 Saturday — Power Bundle Saturday</h3>
+        <p class="rule">Approved bundles only (no substitutions):</p>
+        <ul>
+          <li><strong>$65 Bundle</strong>: Value 3.5g + edible (≤ $15) + wrap/cone</li>
+          <li><strong>$85 Bundle</strong>: Premium 3.5g + cart (≤ $35) + wrap/cone</li>
+        </ul>
+      </article>
+
+      <!-- Sunday -->
+      <article class="card" id="Sun">
+        <h3>⚪ Sunday — Return-Cash Sunday</h3>
+        <p class="rule">Any flower purchase earns:</p>
+        <ul>
+          <li><strong>$5 store credit</strong> for next visit <span>(non-flower only)</span></li>
+        </ul>
+      </article>
+
+      <!-- Fine print -->
+      <article class="card wide" style="margin-top:2px">
+        <h3>House Rules</h3>
+        <p class="rule">• One promo per ticket. No stacking. • Availability subject to inventory. • Credit cannot be used on flower and cannot be redeemed same day. • Exclusions may apply to premium/live products and limited drops.</p>
+      </article>
+    </section>
+
+    <footer>
+      <div class="fine">
+        <strong>Manager note:</strong> Update this page only when a new version is issued (v1.2, v1.3…). Consistency builds trust.
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // Highlight today's deal & enable copy.
+    const map = {
+      0:{key:'Sun', name:'Sunday — Return-Cash Sunday', summary:'Any flower purchase earns $5 store credit for next visit (non-flower only).'},
+      1:{key:'Mon', name:'Monday — Cash Builder Monday', summary:'Any flower unlocks ONE: $5 off carts (excl. premium/live), $4 off edibles, or free wrap/cones.'},
+      2:{key:'Tue', name:'Tuesday — Add-On Accelerator', summary:'Flower + any non-flower item = $6 off the total ticket.'},
+      3:{key:'Wed', name:'Wednesday — Protected Flower Day', summary:'Flower stays full price. With any flower purchase choose ONE: free wrap/cones, $3 off edibles, or $3 off accessories under $20.'},
+      4:{key:'Thu', name:'Thursday — Build-A-Basket', summary:'Any 3 items (any categories) = $8 off total ticket.'},
+      5:{key:'Fri', name:'Friday — Premium Lock Friday', summary:'Premium/Exotic flower unlocks ONE: $7 off carts (excl. premium/live), $5 off edibles, or free premium wrap pack.'},
+      6:{key:'Sat', name:'Saturday — Power Bundle Saturday', summary:'Bundles only: $65 (Value 3.5g + edible ≤ $15 + wrap/cone) or $85 (Premium 3.5g + cart ≤ $35 + wrap/cone).'}
+    };
+
+    const d = new Date();
+    const day = d.getDay();
+    const info = map[day];
+
+    document.getElementById('todayName').textContent = info.name;
+    document.getElementById('todaySummary').textContent = info.summary;
+
+    const card = document.getElementById(info.key);
+    if(card) card.classList.add('highlight');
+
+    // Copy today’s deal
+    document.getElementById('copyBtn').addEventListener('click', async () => {
+      const text = `Isla Verde — ${info.name}\n${info.summary}\n(One promo per ticket. No stacking.)`;
+      try{
+        await navigator.clipboard.writeText(text);
+        const btn = document.getElementById('copyBtn');
+        btn.textContent = 'Copied ✅';
+        setTimeout(()=>btn.textContent='Copy Today’s Deal', 1600);
+      }catch(e){
+        alert('Copy not supported on this device.');
+      }
+    });
+  </script>
+</body>
+</html>
